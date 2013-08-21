@@ -1,8 +1,10 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 ################################################################################
-# Set project name
-PROJECT(DGMET)
+# Set project name, description & set language to C++ (disables C compiler)
+PROJECT(DGMET CXX)
+SET(PROJECT_DESCRIPTION
+    "A testbed for experimenting with discontinuous Galerkin methods.")
 
 ################################################################################
 # Warn user when attempting an in-source build
@@ -10,6 +12,10 @@ IF ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   MESSAGE(WARNING "In-source build detected. It is highly recommended to use "
           "a dedicated build directory that is outside the source directory.")
 ENDIF ()
+
+################################################################################
+# Find all possibly needed packages
+FIND_PACKAGE(Git QUIET) # Needed for git hash tag
 
 ################################################################################
 # Detect build type
@@ -74,6 +80,16 @@ ADD_CUSTOM_TARGET(distclean
     COMMAND ${CMAKE_BUILD_TOOL} clean
     COMMAND ${CMAKE_SOURCE_DIR}/aux/distclean.sh
 )
+
+################################################################################
+# Create custom target 'doc' to generate Doxygen documentation in 'docs/'
+IF (GIT_FOUND)
+  EXECUTE_PROCESS(
+    COMMAND git log -1 --format="%H"
+    OUTPUT_VARIABLE PROJECT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+ELSE ()
+  SET(PROJECT_VERSION "")
+ENDIF ()
 
 ################################################################################
 # Set output directories for the finished results
