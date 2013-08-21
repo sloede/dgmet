@@ -7,12 +7,23 @@ PROJECT(DGMET)
 ################################################################################
 # Warn user when attempting an in-source build
 IF ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
-  MESSAGE(WARNING "In-source build detected! It is highly recommended to use "
+  MESSAGE(WARNING "In-source build detected. It is highly recommended to use "
           "a dedicated build directory that is outside the source directory.")
-ENDIF()
+ENDIF ()
 
 ################################################################################
-# Set compiler flags 
+# Detect build type
+IF ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+  MESSAGE(STATUS "Build type is 'Debug'.")
+ELSEIF ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+  MESSAGE(STATUS "Build type is 'Release'.")
+ELSE ()
+  MESSAGE(FATAL_ERROR "Unsupported build type '${CMAKE_BUILD_TYPE}'. "
+      "Must be either 'Debug' or 'Release'.")
+ENDIF ()
+
+################################################################################
+# Check for compiler and set compiler flags 
 IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   # Configure for clang
   # Check if compiler version fully supports C++11
@@ -23,7 +34,7 @@ IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   IF (${compiler_version} VERSION_LESS 3.3)
     MESSAGE(FATAL_ERROR "Need clang version >= 3.3 for full C++11 support. "
             "Detected version is '${compiler_version}'.")
-  ENDIF()
+  ENDIF ()
 
   # Set compiler flags
   # Default
@@ -41,7 +52,7 @@ ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   IF (${compiler_version} VERSION_LESS 4.8.1)
     MESSAGE(FATAL_ERROR "Need gcc/g++ version >= 4.8.1 for full C++11 support. "
             "Detected version is '${compiler_version}'.")
-  ENDIF()
+  ENDIF ()
 
   # Set compiler flags
   # Default
@@ -54,7 +65,7 @@ ELSE ()
   # Abort for unrecognized compilers             
   MESSAGE(FATAL_ERROR "Unrecognized compiler '${CMAKE_CXX_COMPILER_ID}'."
           "Use clang, gcc or add a new compiler to CMakeLists.txt.")
-ENDIF()
+ENDIF ()
 
 ################################################################################
 # Create custom target 'distclean' to remove all files created during the 

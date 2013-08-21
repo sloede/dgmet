@@ -1,0 +1,145 @@
+#!/bin/bash
+
+# This script provides an easy way to configure DGMET from the command line.
+
+# Set default values
+DEFAULT_BUILD_TYPE="Debug"
+DEFAULT_COMPILER="clang"
+
+# Set allowed values
+AVAILABLE_BUILD_TYPES="Debug Release"
+AVAILABLE_COMPILERS="clang gnu"
+
+################################################################################
+# No need to change anything beyond this line!
+################################################################################
+
+# Reset configuration values
+build_type=""
+compiler=""
+verbose=0
+
+# Analyze arguments
+while getopts ":hb:c:drv" option; do
+  case "$option" in 
+    h)
+      cat << EOF
+'configure' configures DGMET by calling 'cmake' with the appropriate options.
+
+Usage: ./configure [OPTION]...
+
+Configuration:
+  -h                Show this help.
+  -b <build_type>   Set build type. Available build types are '$AVAILABLE_BUILD_TYPES'
+                    (default is '$DEFAULT_BUILD_TYPE').
+  -c <compiler>     Set compiler. Available comilers are '$AVAILABLE_COMPILERS'
+                    (default is '$DEFAULT_COMPILER').
+  -d                Set build type to 'Debug'.
+  -r                Set build type to 'Release'.
+  -v                Verbose output (shows cmake command before execution).
+
+If two or more options contradict each other, the last option wins.
+
+Environment variables:
+  CC                Set C compiler.
+  CXX               Set C++ compiler.
+
+The environment variables 'CC' or 'CXX' are always passed on to cmake. If the
+'-c' option is used, the values are overridden with the corresponding compiler.
+EOF
+      exit 0
+      ;;
+
+    b)
+      valid_build_type=0
+      for i in $AVAILABLE_BUILD_TYPES; do
+        if [ "$OPTARG" = "$i" ]; then
+          build_type=$i
+          valid_build_type=1
+        fi
+      done
+      if [ $valid_build_type -ne 1 ]; then
+        echo "ERROR: unknown build type '$OPTARG'."
+        echo "Run '$0 -h' to see all available build types."
+        exit 2
+      fi
+      ;;
+
+    c)
+      valid_compiler=0
+      for i in $AVAILABLE_COMPILERS; do
+        if [ "$OPTARG" = "$i" ]; then
+          compiler=$i
+          valid_compiler=1
+        fi
+      done
+      if [ $valid_compiler -ne 1 ]; then
+        echo "ERROR: unknown compiler '$OPTARG'."
+        echo "Run '$0 -h' to see all available compilers."
+        exit 2
+      fi
+      ;;
+
+    d)
+      build_type='Debug'
+      ;;
+
+    r)
+      build_type='Release'
+      ;;
+
+    v)
+      verbose=1
+      ;;
+
+    \:)
+      echo "ERROR: parameter '$OPTARG' requires an argument."
+      echo "Run '$0 -h' to see all available arguments."
+      exit 2
+      ;;
+
+    \?)
+      echo "ERROR: unkown parameter '$OPTARG'."
+      echo "Run '$0 -h' to see all available parameters."
+      exit 2
+      ;;
+  esac
+done
+
+# Set default build type if non provided
+if [ -z "$build_type" ]; then
+  build_type="$DEFAULT_BUILD_TYPE"
+fi
+
+# Set CC and CXX if CXX is empty or compiler is manually set
+if [ -z "$CXX" ] || [ -n "$compiler" ]; then
+  if [ -z "$compiler" ]; then
+    compiler="$DEFAULT_COMPILER"
+  fi
+  if [ "$compiler" = "gnu" ]; then
+    CC="gcc"
+    CXX="g++"
+  elif [ "$compiler" = "clang" ]; then
+    CC="clang"
+    CXX="clang++"
+  else
+    echo "ERROR: Bad compiler setting."
+    exit 1
+  fi
+fi
+
+# Delete CMakeCache.txt if C++ compiler differs from previous configuration
+full_compiler_path=`which "$CXX"`
+if [ -n "$full_compiler_path" ]; then
+  cmake_string="CMAKE_CXX_COMPILER:FILEPATH=$full_compiler_path"
+  grep -q "$cmake_string" CMakeCache.txt &>/dev/null || \
+      rm -rf CMakeCache.txt CMakeFiles
+fi
+
+# Output info to user and run cmake
+build_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cmd="CC='$CC' CXX='$CXX' cmake -DCMAKE_BUILD_TYPE=$build_type $build_dir"
+if [ $verbose -eq 1 ]; then
+  echo "$cmd" 
+fi
+eval "$cmd"
