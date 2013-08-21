@@ -1,9 +1,12 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
+# Set project name
 PROJECT(DGMET)
 
-# Add subdirectories with own CMakeLists.txt
-ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/src)
+# Set output directories for the finished results
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# Add include directories for linker
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
+# Add subdirectories with own CMakeLists.txt
+ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src)
