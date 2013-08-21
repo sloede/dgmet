@@ -14,10 +14,6 @@ IF ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
 ENDIF ()
 
 ################################################################################
-# Find all possibly needed packages
-FIND_PACKAGE(Git QUIET) # Needed for git hash tag
-
-################################################################################
 # Detect build type
 IF ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   MESSAGE(STATUS "Build type is 'Debug'.")
@@ -83,12 +79,20 @@ ADD_CUSTOM_TARGET(distclean
 
 ################################################################################
 # Create custom target 'doc' to generate Doxygen documentation in 'docs/'
-IF (GIT_FOUND)
-  EXECUTE_PROCESS(
-    COMMAND git log -1 --format="%H"
-    OUTPUT_VARIABLE PROJECT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
-ELSE ()
-  SET(PROJECT_VERSION "")
+OPTION(BUILD_DOCUMENTATION
+    "Use Doxygen to automatically generate HTML documentation in 'doc/'." ON)
+IF (BUILD_DOCUMENTATION)
+  # Doxygen is mandatory
+  FIND_PACKAGE(Doxygen REQUIRED)
+  # Generate project version number if possible
+  FIND_PACKAGE(Git QUIET)
+  IF (GIT_FOUND)
+    EXECUTE_PROCESS(
+      COMMAND git log -1 --format="%H"
+      OUTPUT_VARIABLE PROJECT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+  ELSE ()
+    SET(PROJECT_VERSION "")
+  ENDIF ()
 ENDIF ()
 
 ################################################################################
