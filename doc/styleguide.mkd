@@ -1,0 +1,44 @@
+# Style guide for dgmet
+
+## General
+Always use DGMET or dgmet when referring to this project (i.e. either all
+lowercase or all uppercase). The former is preferred in text documents,
+the letter in source code files and case-insensitive environments.
+
+## C++
+
+The most important rule: be consistent.
+
+### Namespaces
+Put everything in at least two levels of namespaces:
+1.  The top-level namespace is always `dgmet::`
+2.  The second-level namespace should be used to logically group code entities, 
+    e.g. a namespace containing functions and classes related to quadrature
+    should be named `quadrature::`.
+
+### Naming
+
+#### Types
+Type names should use in PascalCase. This includes `class`, `typedef`, or 
+`struct` types.
+
+#### Functions
+Function names (free or member functions) should use camelCase.
+
+#### Variables
+Variable names should use camelCase. For member variables, attach an underscore
+to the name, e.g. `nCells_`.
+
+#### Namespaces
+Namespaces should be all lowercase and use underscore to separate multiple
+words, e.g. `dgmet::mesh::gauss_lobatto`.
+
+#### Files
+File names are all lowercase and should end in `.cpp` for source files and in
+`.hpp` for header files. They should be named after the main class in them or,
+if there is no main class, after the main namespace.
+
+Examples: `quadrature.hpp` for a header file with no classes but its main
+namespace is `quadrature`. `mesh.cpp` for a file with class definitions for a
+class named `Mesh`.
+
