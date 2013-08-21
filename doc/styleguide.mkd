@@ -5,6 +5,7 @@ Always use DGMET or dgmet when referring to this project (i.e. either all
 lowercase or all uppercase). The former is preferred in text documents,
 the letter in source code files and case-insensitive environments.
 
+
 ## C++
 
 The most important rule: be consistent.
@@ -42,3 +43,9 @@ Examples: `quadrature.hpp` for a header file with no classes but its main
 namespace is `quadrature`. `mesh.cpp` for a file with class definitions for a
 class named `Mesh`.
 
+
+## CMake
+CMake variables and built-in commands should be all uppercase, e.g.
+`CMAKE_SOURCE_DIR` or `TARGET_LINK_LIBRARIES(...)`. User-defined variables and
+commands should be all lowercase and use underscores to concatenate multiple
+words, e.g. `dgmet_src_dir`.

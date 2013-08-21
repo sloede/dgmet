@@ -1,7 +1,7 @@
 #ifndef DGMET_AUX_CONSTANTS_HPP_
 #define DGMET_AUX_CONSTANTS_HPP_
 
-#include "dgmet/aux/types.h"
+#include "dgmet/aux/types.hpp"
 
 namespace dgmet {
 
