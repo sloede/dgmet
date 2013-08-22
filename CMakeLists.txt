@@ -7,6 +7,19 @@ SET(PROJECT_DESCRIPTION
     "A testbed for experimenting with discontinuous Galerkin methods.")
 
 ################################################################################
+# Set paths
+# Module path for custom CMake modules
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+# Output paths
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# Directory with source files
+SET(dgmet_src_dir ${CMAKE_SOURCE_DIR}/src)
+# Directory with utilities
+SET(dgmet_utils_dir ${CMAKE_SOURCE_DIR}/utils)
+
+################################################################################
 # Warn user when attempting an in-source build
 IF ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   MESSAGE(WARNING "In-source build detected. It is highly recommended to use "
@@ -21,7 +34,7 @@ ELSEIF ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
   MESSAGE(STATUS "Build type is 'Release'.")
 ELSE ()
   MESSAGE(FATAL_ERROR "Unsupported build type '${CMAKE_BUILD_TYPE}'. "
-      "Must be either 'Debug' or 'Release'.")
+          "Must be either 'Debug' or 'Release'.")
 ENDIF ()
 
 ################################################################################
@@ -74,36 +87,15 @@ ENDIF ()
 # CMake build process
 ADD_CUSTOM_TARGET(distclean
     COMMAND ${CMAKE_BUILD_TOOL} clean
-    COMMAND ${CMAKE_SOURCE_DIR}/aux/distclean.sh
-)
+    COMMAND ${CMAKE_SOURCE_DIR}/aux/distclean.sh)
 
 ################################################################################
 # Create custom target 'doc' to generate Doxygen documentation in 'docs/'
 OPTION(BUILD_DOCUMENTATION
     "Use Doxygen to automatically generate HTML documentation in 'doc/'." ON)
 IF (BUILD_DOCUMENTATION)
-  # Doxygen is mandatory
-  FIND_PACKAGE(Doxygen REQUIRED)
-  # Generate project version number if possible
-  FIND_PACKAGE(Git QUIET)
-  IF (GIT_FOUND)
-    EXECUTE_PROCESS(
-      COMMAND git log -1 --format="%H"
-      OUTPUT_VARIABLE PROJECT_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
-  ELSE ()
-    SET(PROJECT_VERSION "")
-  ENDIF ()
+  INCLUDE(BuildDoxygen)
 ENDIF ()
-
-################################################################################
-# Set output directories for the finished results
-SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-################################################################################
-# Set directory for source files
-SET(dgmet_src_dir ${CMAKE_SOURCE_DIR}/src)
 
 ################################################################################
 # Add subdirectories with own CMakeLists.txt
