@@ -87,7 +87,7 @@ ENDIF ()
 # CMake build process
 ADD_CUSTOM_TARGET(distclean
     COMMAND ${CMAKE_BUILD_TOOL} clean
-    COMMAND ${CMAKE_SOURCE_DIR}/aux/distclean.sh)
+    COMMAND ${dgmet_utils_dir}/distclean.sh)
 
 ################################################################################
 # Create custom target 'doc' to generate Doxygen documentation in 'docs/'

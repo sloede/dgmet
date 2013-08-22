@@ -15,7 +15,7 @@ ELSE ()
 ENDIF ()
 
 # Generate Doxygen file
-CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/aux/Doxyfile.in
+CONFIGURE_FILE(${dgmet_utils_dir}/Doxyfile.in
                ${CMAKE_BINARY_DIR}/doc/Doxyfile @ONLY)
 
 # Add custom target for the documentation 
