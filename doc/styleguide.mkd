@@ -5,13 +5,14 @@ Always use DGMET or dgmet when referring to this project (i.e. either all
 lowercase or all uppercase). The former is preferred in text documents,
 the letter in source code files and case-insensitive environments.
 
+The most important rule: **be consistent**.
+
 
 ## C++
 
-The most important rule: be consistent.
-
 ### Namespaces
 Put everything in at least two levels of namespaces:
+
 1.  The top-level namespace is always `dgmet::`
 2.  The second-level namespace should be used to logically group code entities, 
     e.g. a namespace containing functions and classes related to quadrature
@@ -20,15 +21,19 @@ Put everything in at least two levels of namespaces:
 ### Naming
 
 #### Types
-Type names should use in PascalCase. This includes `class`, `typedef`, or 
-`struct` types.
+Type names should use PascalCase. This includes `class`, `typedef`, or `struct`
+types.
 
 #### Functions
-Function names (free or member functions) should use camelCase.
+Function names (free or member functions) should use be all lowercase and words
+should be separated by underscores. The name should be descriptive of what the 
+function/method does, possibly using a fitting verb, e.g.
+`calculate_derivative()`.
 
 #### Variables
-Variable names should use camelCase. For member variables, attach an underscore
-to the name, e.g. `nCells_`.
+Variable names should use be all lowercase, using underscores to concatenate
+words. For member variables, attach an underscore to the name, e.g.
+`num_cells_`.
 
 #### Namespaces
 Namespaces should be all lowercase and use underscore to separate multiple
@@ -49,3 +54,9 @@ CMake variables and built-in commands should be all uppercase, e.g.
 `CMAKE_SOURCE_DIR` or `TARGET_LINK_LIBRARIES(...)`. User-defined variables and
 commands should be all lowercase and use underscores to concatenate multiple
 words, e.g. `dgmet_src_dir`.
+
+
+## Bash
+Use uppercase variables for settings that may reasonably be changed by 
+users, and lowercase variables for all internal variables. Separated multiple
+words in a variable name using underscores.
