@@ -9,7 +9,8 @@ SET(PROJECT_DESCRIPTION
     "A testbed for experimenting with discontinuous Galerkin methods.")
 
 ################################################################################
-# Configure paths
+# Configure paths - note that if you change any of them, you might need to
+# change stuff in the utility scripts or the documentation as well
 # Module path for custom CMake modules
 SET(CMAKE_DIR "cmake")
 # Output path for binaries
@@ -18,6 +19,8 @@ SET(BIN_DIR "bin")
 SET(LIB_DIR "lib")
 # Directory with source files
 SET(SRC_DIR "src")
+# Directory with header files
+SET(INCLUDE_DIR "include")
 # Directory with documentation
 SET(DOC_DIR "doc")
 # Directory with utilities

@@ -20,10 +20,17 @@ IF (BUILD_DOCUMENTATION)
   FIND_PACKAGE(Git QUIET)
   IF (GIT_FOUND)
     EXECUTE_PROCESS(COMMAND git log -1 --format="%H"
-                    OUTPUT_VARIABLE PROJECT_VERSION
+                    OUTPUT_VARIABLE project_number
                     OUTPUT_STRIP_TRAILING_WHITESPACE)
   ELSE ()
-    SET(PROJECT_VERSION "")
+    SET(project_number "")
+  ENDIF ()
+
+# Check if DOT was found
+  IF (DOXYGEN_DOT_FOUND)
+    SET(have_dot "YES")
+  ELSE ()
+    SET(have_dot "NO")
   ENDIF ()
 
 # Generate Doxygen file
@@ -31,7 +38,8 @@ IF (BUILD_DOCUMENTATION)
                  ${CMAKE_BINARY_DIR}/${DOC_DIR}/Doxyfile @ONLY)
 
 # Add custom target for the documentation 
-  ADD_CUSTOM_TARGET(doc COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile
-                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${DOC_DIR})
+  ADD_CUSTOM_TARGET(
+    ${DOC_TARGET} COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${DOC_DIR})
 ENDIF ()
 

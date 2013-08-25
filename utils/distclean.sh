@@ -4,7 +4,7 @@
 # build process, leaving the build directory practically empty
 
 # Set files/directories to remove
-to_remove="CMakeCache.txt CMakeFiles Makefile cmake_install.cmake"
+to_remove="CMakeCache.txt CMakeFiles Makefile cmake_install.cmake Doxyfile"
 
 printf "Making 'distclean'... "
 
@@ -12,6 +12,10 @@ printf "Making 'distclean'... "
 for i in $to_remove; do
   find . -name "$i" -print0 | xargs -0 rm -rf
 done
+
+# Remove html and latex directories in doc/ (if existing)
+rm -rf doc/html
+rm -rf doc/latex
 
 # Furthermore, remove empty directories (these could be left-overs from the
 # build process as well)

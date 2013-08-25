@@ -1,11 +1,11 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 # Add include directories for linker
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/${INCLUDE_DIR})
 
 # Set source files
 SET(SRC_EXE
-  ${dgmet_src_dir}/dgmet.cpp
+  ${CMAKE_SOURCE_DIR}/${SRC_DIR}/dgmet.cpp
 )
 
 # Create executable
