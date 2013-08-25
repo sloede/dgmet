@@ -30,6 +30,14 @@ SET(UTILS_DIR "utils")
 # Configure targets
 SET(DOC_TARGET "doc")
 SET(DISTCLEAN_TARGET "distclean")
+SET(LIB_TARGET "dgmet_lib")
+SET(BIN_TARGET "dgmet_bin")
+
+################################################################################
+# Configure output names
+SET(LIB_NAME "dgmet")
+SET(BIN_NAME "dgmet")
+
 
 ################################################################################
 # NO NEED TO CHANGE ANYTHING BEYOND THIS LINE
@@ -42,6 +50,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${LIB_DIR})
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${LIB_DIR})
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${BIN_DIR})
+SET(SRC_DIR_ABS ${CMAKE_SOURCE_DIR}/${SRC_DIR})
 
 ################################################################################
 # Warn user when attempting an in-source build
@@ -117,4 +126,4 @@ ADD_CUSTOM_TARGET(${DISTCLEAN_TARGET}
 ################################################################################
 # Add subdirectories with own CMakeLists.txt
 ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/${DOC_DIR})
-ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/${SRC_DIR})
+ADD_SUBDIRECTORY(${SRC_DIR_ABS})

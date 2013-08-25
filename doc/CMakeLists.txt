@@ -13,9 +13,11 @@ OPTION(BUILD_DOCUMENTATION
 ################################################################################
 # If documentation is enabled, create documentation target
 IF (BUILD_DOCUMENTATION)
+################################################################################
 # Doxygen is mandatory
   FIND_PACKAGE(Doxygen REQUIRED)
 
+################################################################################
 # Generate project version number if possible
   FIND_PACKAGE(Git QUIET)
   IF (GIT_FOUND)
@@ -26,6 +28,7 @@ IF (BUILD_DOCUMENTATION)
     SET(project_number "")
   ENDIF ()
 
+################################################################################
 # Check if DOT was found
   IF (DOXYGEN_DOT_FOUND)
     SET(have_dot "YES")
@@ -33,10 +36,12 @@ IF (BUILD_DOCUMENTATION)
     SET(have_dot "NO")
   ENDIF ()
 
+################################################################################
 # Generate Doxygen file
   CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/${DOC_DIR}/Doxyfile.in
                  ${CMAKE_BINARY_DIR}/${DOC_DIR}/Doxyfile @ONLY)
 
+################################################################################
 # Add custom target for the documentation 
   ADD_CUSTOM_TARGET(
     ${DOC_TARGET} COMMAND ${DOXYGEN_EXECUTABLE} Doxyfile
