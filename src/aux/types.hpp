@@ -13,9 +13,9 @@ using Int = int64_t;
 /// General purpose integer type, small version
 using SInt = int32_t;
 /// General purpose index type
-using Idx = int64_t;
+using Id = int64_t;
 /// General purpose index type, small version
-using SIdx = int32_t;
+using SId = int32_t;
 /// Type for numerical values
 using Num = double;
 /// String type

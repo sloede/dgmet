@@ -5,11 +5,11 @@
 
 int main(int argc, char* argv[]) {
   using namespace dgmet;
-  Int nDim = 2;
-  Num fraction = static_cast<Num>(nDim) / nDimMax;
+  Int ndim = 2;
+  Num fraction = static_cast<Num>(ndim) / ndim_max;
 
-  std::cout << "nDim = " << nDim << ", nDimMax = " << nDimMax << ", fraction = "
-            << fraction << std::endl;
+  std::cout << "ndim = " << ndim << ", ndim_max = " << ndim_max
+            << ", fraction = " << fraction << std::endl;
 
   return EXIT_SUCCESS;
 }

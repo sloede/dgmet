@@ -6,7 +6,7 @@
 namespace dgmet {
 
 /// Maximum number of spatial dimensions
-constexpr SInt nDimMax = 3;
+constexpr SInt ndim_max = 3;
 
 } // namespace dgmet
 
