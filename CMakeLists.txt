@@ -24,6 +24,11 @@ SET(DOC_DIR "doc")
 SET(UTILS_DIR "utils")
 
 ################################################################################
+# Configure targets
+SET(DOC_TARGET "doc")
+SET(DISTCLEAN_TARGET "distclean")
+
+################################################################################
 # NO NEED TO CHANGE ANYTHING BEYOND THIS LINE
 ################################################################################
 
@@ -99,9 +104,9 @@ ELSE ()
 ENDIF ()
 
 ################################################################################
-# Create custom target 'distclean' to remove all files created during the 
-# CMake build process
-ADD_CUSTOM_TARGET(distclean
+# Create custom target '${DISTCLEAN_TARGET}' to remove all files created during
+# the CMake build process
+ADD_CUSTOM_TARGET(${DISTCLEAN_TARGET}
     COMMAND ${CMAKE_BUILD_TOOL} clean
     COMMAND ${CMAKE_SOURCE_DIR}/${UTILS_DIR}/distclean.sh)
 

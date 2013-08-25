@@ -4,9 +4,11 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 # generation of the Doxygen documentation
 
 ################################################################################
-# Create custom target 'doc' to generate Doxygen documentation in 'docs/'
+# Create custom target '${DOC_TARGET}' to generate Doxygen documentation in
+# '${DOC_DIR}'
 OPTION(BUILD_DOCUMENTATION
-    "Use Doxygen to automatically generate HTML documentation in 'doc/'." ON)
+    "Use Doxygen to automatically generate HTML documentation in '${DOC_DIR}/'."
+    ON)
 
 ################################################################################
 # If documentation is enabled, create documentation target
@@ -25,7 +27,7 @@ IF (BUILD_DOCUMENTATION)
   ENDIF ()
 
 # Generate Doxygen file
-  CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/${UTILS_DIR}/Doxyfile.in
+  CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/${DOC_DIR}/Doxyfile.in
                  ${CMAKE_BINARY_DIR}/${DOC_DIR}/Doxyfile @ONLY)
 
 # Add custom target for the documentation 
