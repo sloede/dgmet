@@ -5,10 +5,12 @@
 # Set default values
 DEFAULT_BUILD_TYPE="Debug"
 DEFAULT_COMPILER="clang"
+DEFAULT_DOC_TARGET="OFF"
 
 # Set allowed values
 AVAILABLE_BUILD_TYPES="Debug Release"
 AVAILABLE_COMPILERS="clang gnu"
+
 
 ################################################################################
 # No need to change anything beyond this line!
@@ -17,6 +19,7 @@ AVAILABLE_COMPILERS="clang gnu"
 # Reset configuration values
 build_type=""
 compiler=""
+doc_target="$DEFAULT_DOC_TARGET"
 verbose=0
 
 # Analyze arguments
@@ -34,8 +37,8 @@ Configuration:
                     (default is '$DEFAULT_BUILD_TYPE').
   -c <compiler>     Set compiler. Available comilers are '$AVAILABLE_COMPILERS'
                     (default is '$DEFAULT_COMPILER').
-  -d                Set build type to 'Debug'.
-  -r                Set build type to 'Release'.
+  -d                Enable 'make doc' to build Doxygen documentation (default is
+                    '$DEFAULT_DOC_TARGET').
   -v                Verbose output (shows cmake command before execution).
 
 If two or more options contradict each other, the last option wins.
@@ -81,11 +84,7 @@ EOF
       ;;
 
     d)
-      build_type='Debug'
-      ;;
-
-    r)
-      build_type='Release'
+      doc_target="ON"
       ;;
 
     v)
@@ -138,7 +137,8 @@ fi
 
 # Output info to user and run cmake
 build_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cmd="CC='$CC' CXX='$CXX' cmake -DCMAKE_BUILD_TYPE=$build_type $build_dir"
+cmd="CC='$CC' CXX='$CXX' cmake -DCMAKE_BUILD_TYPE=$build_type \
+-DBUILD_DOCUMENTATION:BOOL=$doc_target $build_dir"
 if [ $verbose -eq 1 ]; then
   echo "$cmd" 
 fi
