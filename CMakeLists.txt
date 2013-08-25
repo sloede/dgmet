@@ -1,5 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
+# This is the main CMake configuration file for this project
+
 ################################################################################
 # Set project name, description & set language to C++ (disables C compiler)
 PROJECT(DGMET CXX)
@@ -7,17 +9,31 @@ SET(PROJECT_DESCRIPTION
     "A testbed for experimenting with discontinuous Galerkin methods.")
 
 ################################################################################
-# Set paths
+# Configure paths
 # Module path for custom CMake modules
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
-# Output paths
-SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+SET(CMAKE_DIR "cmake")
+# Output path for binaries
+SET(BIN_DIR "bin")
+# Output path for libraryes & archives
+SET(LIB_DIR "lib")
 # Directory with source files
-SET(dgmet_src_dir ${CMAKE_SOURCE_DIR}/src)
+SET(SRC_DIR "src")
+# Directory with documentation
+SET(DOC_DIR "doc")
 # Directory with utilities
-SET(dgmet_utils_dir ${CMAKE_SOURCE_DIR}/utils)
+SET(UTILS_DIR "utils")
+
+################################################################################
+# NO NEED TO CHANGE ANYTHING BEYOND THIS LINE
+################################################################################
+
+
+################################################################################
+# Set paths
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${LIB_DIR})
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${LIB_DIR})
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${BIN_DIR})
 
 ################################################################################
 # Warn user when attempting an in-source build
@@ -87,16 +103,10 @@ ENDIF ()
 # CMake build process
 ADD_CUSTOM_TARGET(distclean
     COMMAND ${CMAKE_BUILD_TOOL} clean
-    COMMAND ${dgmet_utils_dir}/distclean.sh)
+    COMMAND ${CMAKE_SOURCE_DIR}/${UTILS_DIR}/distclean.sh)
 
-################################################################################
-# Create custom target 'doc' to generate Doxygen documentation in 'docs/'
-OPTION(BUILD_DOCUMENTATION
-    "Use Doxygen to automatically generate HTML documentation in 'doc/'." ON)
-IF (BUILD_DOCUMENTATION)
-  INCLUDE(BuildDoxygen)
-ENDIF ()
 
 ################################################################################
 # Add subdirectories with own CMakeLists.txt
-ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src)
+ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/${DOC_DIR})
+ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/${SRC_DIR})

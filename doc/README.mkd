@@ -1,0 +1,4 @@
+This directory initially contains only selected documentation files. When
+having configured a new build with `BUILD_DOCUMENTATION` set to `ON`, you can 
+use `make doc` to build a Latex and HTML documenation for the project in here as
+well.
